@@ -15,7 +15,7 @@ const NavRight = () => {
     <React.Fragment>
       <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
         <ListGroup.Item as="li" bsPrefix=" ">
-          <p>Welcome: {auth?.name}</p>
+          <h6>Welcome: {auth?.name}</h6>
         </ListGroup.Item>
         <ListGroup.Item as="li" bsPrefix=" ">
           <Link to="#" className="dud-logout" title="Logout" onClick={handleLogout}>

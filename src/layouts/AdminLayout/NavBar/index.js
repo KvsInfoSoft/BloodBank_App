@@ -47,7 +47,7 @@ const NavBar = () => {
         </Link>
         <Link to="#" className="b-brand">
         <Logo />
-          <span className="b-title">E-Blood Bank</span>
+          {/* <span className="b-title">E-Blood Bank</span> */}
         </Link>
         <Link to="#" className={moreClass.join(' ')} onClick={() => setMoreToggle(!moreToggle)}>
           <i className="feather icon-more-vertical" />

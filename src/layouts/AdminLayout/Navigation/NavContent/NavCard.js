@@ -14,14 +14,14 @@ const NavCard = () => {
           <Card.Body className="p-2 text-center">
             <img src={sidebarImages} className="img-radius " alt="User-Profile" />
             <h5 className="text-white">E-Blood Bank</h5>
-            <p className="text-white">Checkout Datta Premium Features</p>
-            <a
+            <p className="text-white">A complete Blood Bank Solution.</p>
+            {/* <a
               href="https://codedthemes.com/item/datta-able-react-admin-template/?utm_source=free_demo&utm_medium=codedthemes&utm_campaign=button_download_premium"
               target={itemTarget}
               className="btn text-white btn-primary"
             >
               Download Premium
-            </a>
+            </a> */}
           </Card.Body>
         </Card>
       </div>

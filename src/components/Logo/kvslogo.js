@@ -1,7 +1,7 @@
 // material-ui
 // import { useTheme } from '@mui/material/styles';
 
-import logo from '../../assets/images/kvs1.png';
+import logo from '../../assets/images/kvs2.png';
 
 /**
  * if you want to use image instead of <svg> uncomment following.

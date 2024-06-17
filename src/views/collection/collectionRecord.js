@@ -219,7 +219,8 @@ function collectionRecord() {
                   </Form.Group>
                   <Form.Group className="mb-3" as={Col} md="1">
                     <SearchOutlined style={{ margin: '45px -3px 0px 0px' }} onClick={searchClick} />
-                    {/* <Button style={{margin:'30px -3px 0px 0px'}} onClick={searchClick}>Search</Button> */}
+
+                    {/* <Button style={{margin:'28px 0 0 -14px',height:'42px'}} icon={<SearchOutlined/>}  onClick={searchClick}>search</Button>  */}
                   </Form.Group>
                 </Row>
               </Form>
