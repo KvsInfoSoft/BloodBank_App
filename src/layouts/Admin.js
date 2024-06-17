@@ -47,6 +47,7 @@ function Dashboard(props) {
       }
     };
   });
+ 
   React.useEffect(() => {
     mainPanel.current.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;

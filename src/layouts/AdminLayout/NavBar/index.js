@@ -7,11 +7,14 @@ import NavRight from './NavRight';
 import { ConfigContext } from '../../../contexts/ConfigContext';
 import * as actionType from '../../../store/actions';
 
+import Logo from '../../../components/Logo/kvslogo'
+
 const NavBar = () => {
   const [moreToggle, setMoreToggle] = useState(false);
   const configContext = useContext(ConfigContext);
   const { collapseMenu, headerFixedLayout, layout } = configContext.state;
   const { dispatch } = configContext;
+ 
 
   let headerClass = ['navbar', 'pcoded-header', 'navbar-expand-lg'];
   if (headerFixedLayout && layout === 'vertical') {
@@ -22,6 +25,7 @@ const NavBar = () => {
   if (collapseMenu) {
     toggleClass = [...toggleClass, 'on'];
   }
+
 
   const navToggleHandler = () => {
     dispatch({ type: actionType.COLLAPSE_MENU });
@@ -42,10 +46,8 @@ const NavBar = () => {
           <span />
         </Link>
         <Link to="#" className="b-brand">
-          <div className="b-bg">
-            <i className="feather icon-trending-up" />
-          </div>
-          <span className="b-title">Blood Bank</span>
+        <Logo />
+          <span className="b-title">E-Blood Bank</span>
         </Link>
         <Link to="#" className={moreClass.join(' ')} onClick={() => setMoreToggle(!moreToggle)}>
           <i className="feather icon-more-vertical" />

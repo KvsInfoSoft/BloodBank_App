@@ -1,23 +1,69 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Button, Alert } from 'react-bootstrap';
-
+import { notification } from 'antd';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import Loginservice from '../../../services/authentication/login.services';
 
 const FirebaseLogin = ({ className, ...rest }) => {
+  const [loginservice] = useState(() => new Loginservice());
+  const [api, contextHolder] = notification.useNotification();
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
+  const openNotification = (title, message) => {
+    api.info({
+      message: title,
+      description: message
+    });
+  };
+  const onLogin = (values) => {
+    let params = {
+      UserID: values.email,
+      Password: values.password
+    };
+    loginservice.getUserLogin(params).then((response) => {
+      try {
+        if (response.data.statusCode === 200) {
+          let sessionValue = {
+            userId: response.data.data.userId,
+            emailId: response.data.data.emailId,
+            name: response.data.data.name
+          };
+          sessionStorage.setItem('token-info', JSON.stringify(sessionValue));
+          window.location.href = '/app/dashboard/default';
+        } else {
+          openNotification('E_BloodBank Login', response.data.message);
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    });
+  };
+
   return (
-    <React.Fragment>
+    <>
+      {contextHolder}
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
+          email: '',
+          password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          email: Yup.string().max(255).required('User-Id is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
+        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+          try {
+            onLogin(values);
+          } catch (err) {
+            setStatus({ success: false });
+            setErrors({ submit: err.message });
+            setSubmitting(false);
+          }
+        }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} className={className} {...rest}>
@@ -29,6 +75,7 @@ const FirebaseLogin = ({ className, ...rest }) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 type="email"
+                placeholder="Enter UserID"
                 value={values.email}
               />
               {touched.email && errors.email && <small className="text-danger form-text">{errors.email}</small>}
@@ -41,6 +88,7 @@ const FirebaseLogin = ({ className, ...rest }) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 type="password"
+                placeholder="Enter Password"
                 value={values.password}
               />
               {touched.password && errors.password && <small className="text-danger form-text">{errors.password}</small>}
@@ -52,40 +100,24 @@ const FirebaseLogin = ({ className, ...rest }) => {
               </Col>
             )}
 
-            <div className="custom-control custom-checkbox  text-start mb-4 mt-2">
+            {/* <div className="custom-control custom-checkbox  text-start mb-4 mt-2">
               <input type="checkbox" className="custom-control-input" id="customCheck1" />
               <label className="custom-control-label" htmlFor="customCheck1">
                 &nbsp; Save credentials.
               </label>
-            </div>
+            </div> */}
 
             <Row>
               <Col mt={2}>
                 <Button className="btn-block" color="primary" enabled={isSubmitting} size="large" type="submit" variant="primary">
-                  Signin
+                  Login
                 </Button>
               </Col>
             </Row>
           </form>
         )}
       </Formik>
-
-      {/* <Row>
-        <Col sm={12}>
-          <h5 className="my-3"> OR </h5>
-        </Col>
-      </Row> */}
-
-      {/* <Row>
-        <Col sm={12}>
-          <Button variant="danger">
-            <i className="fa fa-lock" /> Sign in with Google
-          </Button>
-        </Col>
-      </Row> */}
-
-      <hr />
-    </React.Fragment>
+    </>
   );
 };
 

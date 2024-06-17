@@ -11,10 +11,10 @@ const SignUp1 = () => {
       <div className="auth-wrapper">
         <div className="auth-content">
           <div className="auth-bg">
-            <span className="r" />
+            {/* <span className="r" />
             <span className="r s" />
             <span className="r s" />
-            <span className="r" />
+            <span className="r" /> */}
           </div>
           <Card className="borderless">
             <Row className="align-items-center">

@@ -102,6 +102,26 @@ const routes = [
       },
       {
         exact: 'true',
+        path: '/collection/collectionRecord',
+        element: lazy(() => import('./views/collection/collectionRecord'))
+      },
+      {
+        exact: 'true',
+        path: '/donor/donorRecord',
+        element: lazy(() => import('./views/donor/donorRecord'))
+      },
+      {
+        exact: 'true',
+        path: '/issue/issueRecord',
+        element: lazy(() => import('./views/issue/issueRecord'))
+      },
+      {
+        exact: 'true',
+        path: '/stock/stockRecord',
+        element: lazy(() => import('./views/stock/stockRecord'))
+      },
+      {
+        exact: 'true',
         path: '/tables/bootstrap',
         element: lazy(() => import('./views/tables/BootstrapTable'))
       },
