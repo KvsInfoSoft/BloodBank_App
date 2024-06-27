@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import IssueServices from '../../services/isueRecord/issueRecord.services';
 import BranchDetails from '../../services/dashboard/branchDetail.services';
 import DateValue from '../../components/getDate/date';
+import ChangePassword from '../changePassword/changePasswordModal';
 
 function issueRecord() {
   const [issueServices] = useState(() => new IssueServices());
@@ -92,7 +93,7 @@ function issueRecord() {
 
   function searchClick() {
     let param = {
-      PartyCode: auth.userId,
+      PartyCode: auth?.userId,
       BranchCode: inputs.branchName ? inputs.branchName : defaultBranchname,
       IssueReason: inputs.issueReason ? inputs.issueReason || inputs.issueReason !== undefined : '0',
       DateFrom: inputs.dateFrom ? inputs.dateFrom : yesturdayDate,
@@ -113,7 +114,7 @@ function issueRecord() {
 
   const onbranchDetails = () => {
     let params = {
-      PartyCode: auth.userId
+      PartyCode: auth?.userId
     };
     brnachService.getBranchDetail(params).then((response) => {
       try {
@@ -121,7 +122,7 @@ function issueRecord() {
           setbranchDetails(response.data.data);
           setdefaultBranchname(response.data.data[0].code);
           let param = {
-            PartyCode: auth.userId,
+            PartyCode: auth?.userId,
             BranchCode: response.data.data[0].code,
             IssueReason: '',
             DateFrom: yesturdayDate,
@@ -136,6 +137,7 @@ function issueRecord() {
   };
   return (
     <>
+      {auth?.pwd ? <ChangePassword /> : <></>}
       <Row>
         <Col sm={12}>
           <Card>
@@ -144,7 +146,7 @@ function issueRecord() {
                 <Form.Group className="mb-2" as={Col} md="3">
                   <Form.Label>Branch Name</Form.Label>
                   <InputGroup className="mb-2">
-                    <FormControl as="select" aria-describedby="custom-addons1" className="custom-select">
+                    <FormControl as="select" onChange={handleSelectChange} aria-describedby="custom-addons1" className="custom-select">
                       {branchDetails.map((option) => (
                         <option key={option.code} value={option.code}>
                           {option.branchName}

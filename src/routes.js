@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Loader from './components/Loader/Loader';
 import AdminLayout from './layouts/AdminLayout';
 
-import { BASE_URL } from './config/constant';
+import { BASE_URL, BASE_URL1, Home_URL } from './config/constant';
 
 export const renderRoutes = (routes = []) => (
   <Suspense fallback={<Loader />}>
@@ -60,46 +60,46 @@ const routes = [
         path: '/app/dashboard/default',
         element: lazy(() => import('./views/dashboard/index'))
       },
-      {
-        exact: 'true',
-        path: '/basic/button',
-        element: lazy(() => import('./views/ui-elements/basic/BasicButton'))
-      },
-      {
-        exact: 'true',
-        path: '/basic/badges',
-        element: lazy(() => import('./views/ui-elements/basic/BasicBadges'))
-      },
-      {
-        exact: 'true',
-        path: '/basic/breadcrumb',
-        element: lazy(() => import('./views/ui-elements/basic/BasicBreadcrumb'))
-      },
-      {
-        exact: 'true',
-        path: '/basic/pagination',
-        element: lazy(() => import('./views/ui-elements/basic/BasicPagination'))
-      },
-      {
-        exact: 'true',
-        path: '/basic/collapse',
-        element: lazy(() => import('./views/ui-elements/basic/BasicCollapse'))
-      },
-      {
-        exact: 'true',
-        path: '/basic/tabs-pills',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTabsPills'))
-      },
-      {
-        exact: 'true',
-        path: '/basic/typography',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTypography'))
-      },
-      {
-        exact: 'true',
-        path: '/forms/form-basic',
-        element: lazy(() => import('./views/forms/FormsElements'))
-      },
+      // {
+      //   exact: 'true',
+      //   path: '/basic/button',
+      //   element: lazy(() => import('./views/ui-elements/basic/BasicButton'))
+      // },
+      // {
+      //   exact: 'true',
+      //   path: '/basic/badges',
+      //   element: lazy(() => import('./views/ui-elements/basic/BasicBadges'))
+      // },
+      // {
+      //   exact: 'true',
+      //   path: '/basic/breadcrumb',
+      //   element: lazy(() => import('./views/ui-elements/basic/BasicBreadcrumb'))
+      // },
+      // {
+      //   exact: 'true',
+      //   path: '/basic/pagination',
+      //   element: lazy(() => import('./views/ui-elements/basic/BasicPagination'))
+      // },
+      // {
+      //   exact: 'true',
+      //   path: '/basic/collapse',
+      //   element: lazy(() => import('./views/ui-elements/basic/BasicCollapse'))
+      // },
+      // {
+      //   exact: 'true',
+      //   path: '/basic/tabs-pills',
+      //   element: lazy(() => import('./views/ui-elements/basic/BasicTabsPills'))
+      // },
+      // {
+      //   exact: 'true',
+      //   path: '/basic/typography',
+      //   element: lazy(() => import('./views/ui-elements/basic/BasicTypography'))
+      // },
+      // {
+      //   exact: 'true',
+      //   path: '/forms/form-basic',
+      //   element: lazy(() => import('./views/forms/FormsElements'))
+      // },
       {
         exact: 'true',
         path: '/collection/collectionRecord',
@@ -143,7 +143,7 @@ const routes = [
       {
         path: '*',
         exact: 'true',
-        element: () => <Navigate to={BASE_URL} />
+        element: () => <Navigate to={Home_URL} />
       }
     ]
   }

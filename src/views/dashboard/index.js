@@ -10,6 +10,7 @@ import avatar3 from '../../assets/images/user/avatar-3.jpg';
 import BranchDetails from '../../services/dashboard/branchDetail.services';
 import { Link, Navigate, Route } from 'react-router-dom';
 import { param } from 'jquery';
+import ChangePassword from '../changePassword/changePasswordModal';
 
 const DashDefault = () => {
   const [dashabordServices] = useState(() => new DashabordCardCountServices());
@@ -18,7 +19,15 @@ const DashDefault = () => {
   const [cardcount, setRecordCount] = useState();
   const [branchDetails, setbranchDetails] = useState([]);
   const [listState, setListSate] = useState();
+  const [pwd, setpwd] = useState(false);
 
+  useEffect(() => {
+    if (JSON.parse(sessionStorage.getItem('token-info')) == null || JSON.parse(sessionStorage.getItem('token-info')) === '') {
+      window.location.href = '/login';
+    }
+    onbranchDetails();
+    // onStockDetails();
+  }, []);
   const getColumns = [
     // {
     //   title: 'Branch Name',
@@ -37,33 +46,35 @@ const DashDefault = () => {
       dataIndex: 'qty'
     }
   ];
-  useEffect(() => {
-    if (JSON.parse(sessionStorage.getItem('token-info')) == null || JSON.parse(sessionStorage.getItem('token-info')) === '') {
-      window.location.href = '/login';
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (JSON.parse(sessionStorage.getItem('token-info')) == null || JSON.parse(sessionStorage.getItem('token-info')) === '') {
+  //     window.location.href = '/login';
+  //   }
+  // }, []);
+
   var auth = JSON.parse(sessionStorage.getItem('token-info'));
 
   const onStockDetails = (param) => {
-    // setLoading(true);
-    let data = {
-      PartyCode: auth.userId,
-      BranchCode: param
-    };
-    stockServices.getStockRecordDetails(data).then((response) => {
-      try {
-        if (response.data.statusCode === 200) {
-          setListSate(response.data.data);
+    if (auth.userId !== null) {
+      let data = {
+        PartyCode: auth?.userId,
+        BranchCode: param
+      };
+      stockServices.getStockRecordDetails(data).then((response) => {
+        try {
+          if (response.data.statusCode === 200) {
+            setListSate(response.data.data);
+          }
+          // setLoading(false);
+        } catch (e) {
+          console.log(e.message);
         }
-        // setLoading(false);
-      } catch (e) {
-        console.log(e.message);
-      }
-    });
+      });
+    }
   };
   const onDashbaordCardCount = (params) => {
     let data = {
-      PartyCode: auth.userId,
+      PartyCode: auth?.userId,
       BranchCode: params
     };
     dashabordServices.getDashboardCardCount(data).then((response) => {
@@ -76,30 +87,29 @@ const DashDefault = () => {
       }
     });
   };
-  useEffect(() => {
-    onbranchDetails();
-    // onStockDetails();
-  }, []);
+  
 
   const handleSelectChange = (event) => {
     onDashbaordCardCount(event.target.value);
     onStockDetails(event.target.value);
   };
   const onbranchDetails = () => {
-    let params = {
-      PartyCode: auth.userId
-    };
-    brnachService.getBranchDetail(params).then((response) => {
-      try {
-        if (response.data.statusCode === 200) {
-          setbranchDetails(response.data.data);
-          onStockDetails(response.data.data[0].code);
-          onDashbaordCardCount(response.data.data[0].code);
+    if (auth.userId !== null) {
+      let params = {
+        PartyCode: auth?.userId
+      };
+      brnachService.getBranchDetail(params).then((response) => {
+        try {
+          if (response.data.statusCode === 200) {
+            setbranchDetails(response.data.data);
+            onStockDetails(response.data.data[0].code);
+            onDashbaordCardCount(response.data.data[0].code);
+          }
+        } catch (e) {
+          console.log(e.message);
         }
-      } catch (e) {
-        console.log(e.message);
-      }
-    });
+      });
+    }
   };
 
   function redirectCollectiont() {
@@ -117,6 +127,7 @@ const DashDefault = () => {
 
   return (
     <React.Fragment>
+      {auth?.pwd ? (<ChangePassword/>):(<></>)}
       <Row>
         <Col sm={12}>
           <CardBody>

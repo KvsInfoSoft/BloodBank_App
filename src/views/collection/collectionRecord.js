@@ -11,6 +11,7 @@ import avatar2 from '../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../assets/images/user/avatar-3.jpg';
 import { render } from '@testing-library/react';
 import { data } from 'jquery';
+import ChangePassword from '../changePassword/changePasswordModal';
 
 function collectionRecord() {
   const [collestionServices] = useState(() => new CollectionDetails());
@@ -103,7 +104,7 @@ function collectionRecord() {
 
   function searchClick() {
     let param = {
-      PartyCode: auth.userId,
+      PartyCode: auth?.userId,
       BranchCode: inputs.branchName ? inputs.branchName : defaultBranchname,
       PayMode: inputs.payMode ? inputs.payMode || inputs.payMode !== undefined : '0',
       DateFrom: inputs.dateFrom ? inputs.dateFrom : yesturdayDate,
@@ -124,7 +125,7 @@ function collectionRecord() {
 
   const onbranchDetails = () => {
     let params = {
-      PartyCode: auth.userId
+      PartyCode: auth?.userId
     };
     brnachService.getBranchDetail(params).then((response) => {
       try {
@@ -132,7 +133,7 @@ function collectionRecord() {
           setbranchDetails(response.data.data);
           setdefaultBranchname(response.data.data[0].code);
           let param = {
-            PartyCode: auth.userId,
+            PartyCode: auth?.userId,
             BranchCode: response.data.data[0].code,
             PayMode: '',
             DateFrom: yesturdayDate,
@@ -148,6 +149,7 @@ function collectionRecord() {
 
   return (
     <>
+      {auth?.pwd ? <ChangePassword /> : <></>}
       <Row>
         <Col sm={12}>
           <Card>
@@ -160,7 +162,7 @@ function collectionRecord() {
                   <Form.Group className="mb-2" as={Col} md="3">
                     <Form.Label>Branch Name</Form.Label>
                     <InputGroup className="mb-2">
-                      <FormControl as="select" aria-describedby="custom-addons1" className="custom-select">
+                      <FormControl as="select" onChange={handleSelectChange} aria-describedby="custom-addons1" className="custom-select">
                         {branchDetails.map((option) => (
                           <option key={option.code} value={option.code}>
                             {option.branchName}

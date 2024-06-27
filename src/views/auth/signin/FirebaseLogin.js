@@ -29,7 +29,8 @@ const FirebaseLogin = ({ className, ...rest }) => {
           let sessionValue = {
             userId: response.data.data.userId,
             emailId: response.data.data.emailId,
-            name: response.data.data.name
+            name: response.data.data.name,
+            pwd: response.data.changePassword
           };
           sessionStorage.setItem('token-info', JSON.stringify(sessionValue));
           window.location.href = '/app/dashboard/default';

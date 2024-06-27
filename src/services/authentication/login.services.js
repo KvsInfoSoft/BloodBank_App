@@ -2,7 +2,7 @@ import axios from 'axios';
 const apiUrl = process.env.REACT_APP_Dev_Url;
 
 export default class loginservice {
-  async getUserLogin(param) {
+  async getUserLogin(param) {    
     const myAPI = apiUrl + 'api/Login/UserLogin';
     let logindata = [];
     await axios

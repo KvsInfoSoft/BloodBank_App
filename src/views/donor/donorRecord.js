@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import DonorServices from '../../services/donor/donor.services';
 import BranchDetails from '../../services/dashboard/branchDetail.services';
 import DateValue from '../../components/getDate/date';
+import ChangePassword from '../changePassword/changePasswordModal';
 
 function donorRecord() {
   const [donorServices] = useState(() => new DonorServices());
@@ -83,7 +84,7 @@ function donorRecord() {
 
   function searchClick() {
     let param = {
-      PartyCode: auth.userId,
+      PartyCode: auth?.userId,
       BranchCode: inputs.branchName ? inputs.branchName : defaultBranchname,
       DonationType: inputs.donationType ? inputs.donationType || inputs.donationType !== undefined : '0',
       DateFrom: inputs.dateFrom ? inputs.dateFrom : yesturdayDate,
@@ -103,7 +104,7 @@ function donorRecord() {
 
   const onbranchDetails = () => {
     let params = {
-      PartyCode: auth.userId
+      PartyCode: auth?.userId
     };
     brnachService.getBranchDetail(params).then((response) => {
       try {
@@ -111,7 +112,7 @@ function donorRecord() {
           setbranchDetails(response.data.data);
           setdefaultBranchname(response.data.data[0].code);
           let param = {
-            PartyCode: auth.userId,
+            PartyCode: auth?.userId,
             BranchCode: response.data.data[0].code,
             DonationType: '',
             DateFrom: yesturdayDate,
@@ -126,6 +127,7 @@ function donorRecord() {
   };
   return (
     <>
+    {auth?.pwd ? (<ChangePassword/>):(<></>)}
       <Row>
         <Col sm={12}>
           <Card>
@@ -134,7 +136,7 @@ function donorRecord() {
                 <Form.Group className="mb-2" as={Col} md="3">
                   <Form.Label>Branch Name</Form.Label>
                   <InputGroup className="mb-2">
-                    <FormControl as="select" aria-describedby="custom-addons1" className="custom-select">
+                    <FormControl as="select" onChange={handleSelectChange} aria-describedby="custom-addons1" className="custom-select">
                       {branchDetails.map((option) => (
                         <option key={option.code} value={option.code}>
                           {option.branchName}

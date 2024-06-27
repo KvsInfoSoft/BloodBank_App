@@ -4,6 +4,7 @@ import { Button, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import StockServices from '../../services/stockRecord/stockRecord.services';
 import BranchDetails from '../../services/dashboard/branchDetail.services';
+import ChangePassword from '../changePassword/changePasswordModal';
 
 function stockRecord() {
   const [stockServices] = useState(() => new StockServices());
@@ -75,7 +76,7 @@ function stockRecord() {
 
   const searchClick = () => {
     let param = {
-      PartyCode: auth.userId,
+      PartyCode: auth?.userId,
       BranchCode: inputs.branchName ? inputs.branchName : defaultBranchname,
       Component: inputs.component ? inputs.component : ''
     };
@@ -94,7 +95,7 @@ function stockRecord() {
 
   const onbranchDetails = () => {
     let params = {
-      PartyCode: auth.userId
+      PartyCode: auth?.userId
     };
     brnachService.getBranchDetail(params).then((response) => {
       try {
@@ -102,7 +103,7 @@ function stockRecord() {
           setbranchDetails(response.data.data);
           setdefaultBranchname(response.data.data[0].code);
           let param = {
-            PartyCode: auth.userId,
+            PartyCode: auth?.userId,
             BranchCode: response.data.data[0].code,
             Component: ''
           };
@@ -115,6 +116,7 @@ function stockRecord() {
   };
   return (
     <>
+      {auth?.pwd ? <ChangePassword /> : <></>}
       <Row>
         <Col sm={12}>
           <Card>
@@ -123,7 +125,7 @@ function stockRecord() {
                 <Form.Group className="mb-2" as={Col} md="3">
                   <Form.Label>Branch Name</Form.Label>
                   <InputGroup className="mb-2">
-                    <FormControl as="select" aria-describedby="custom-addons1" className="custom-select">
+                    <FormControl as="select" onChange={handleSelectChange} aria-describedby="custom-addons1" className="custom-select">
                       {branchDetails.map((option) => (
                         <option key={option.code} value={option.code}>
                           {option.branchName}
